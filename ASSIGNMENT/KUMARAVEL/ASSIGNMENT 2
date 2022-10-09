@@ -1,3 +1,4 @@
+#Python code for detecting alarm incase of high temperature
 import random
 def temp():
     temp=random.randint(20,40)
