@@ -1,0 +1,72 @@
+#PYTHON CODE FOR LED BLINKING
+#!/usr/bin/env python
+import RPi.GPIO as GPIO # RPi.GPIO can be referred as GPIO from now
+import time
+ 
+ledPin = 22    # pin22
+ 
+def setup():
+        GPIO.setmode(GPIO.BOARD)       # GPIO Numbering of Pins
+        GPIO.setup(ledPin, GPIO.OUT)   # Set ledPin as output
+        GPIO.output(ledPin, GPIO.LOW)  # Set ledPin to LOW to turn Off the LED
+ 
+def loop():
+        while True:
+                print 'LED on'
+                GPIO.output(ledPin, GPIO.HIGH)   # LED On
+                time.sleep(1.0)                  # wait 1 sec
+                print 'LED off'
+                GPIO.output(ledPin, GPIO.LOW)   # LED Off
+                time.sleep(1.0)                 # wait 1 sec
+def endprogram():
+ 
+        GPIO.output(ledPin, GPIO.LOW)     # LED Off
+        GPIO.cleanup()                    # Release resources
+ 
+if __name__ == '__main__':         # Program starts from here
+        setup()
+        try:
+                loop()
+        except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the destroy() will be  executed.
+                endprogram()
+                
+                
+                
+
+#PYTHON CODE FOR TRAFFIC LIGHTS
+import RPi.GPIO as GPIO
+import time
+  
+try:
+  def lightTraffic(led1, led2, led3, delay ):
+    GPIO.output(led1, 1)
+    time.sleep(delay)
+    GPIO.output(led1, 0)
+    GPIO.output(led2, 1)
+    time.sleep(delay)
+    GPIO.output(led2, 0)
+    GPIO.output(led3, 1)  
+    time.sleep(delay)
+    GPIO.output(led3, 0)  
+  GPIO.setmode(GPIO.BCM)
+  button = 19
+  GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  ledGreen = 16
+  ledYellow = 12
+  ledRed = 23
+  GPIO.setup(ledGreen, GPIO.OUT)
+  GPIO.setup(ledYellow, GPIO.OUT)
+  GPIO.setup(ledRed, GPIO.OUT)
+  while True:
+    input_state = GPIO.input(button)
+    if input_state == False:
+      print('Button Pressed')
+      lightTraffic(ledGreen, ledYellow, ledRed, 1)
+    else: 
+      GPIO.output(ledGreen, 0)
+      GPIO.output(ledYellow, 0)
+      GPIO.output(ledRed, 0)
+except KeyboardInterrupt:
+  print "You've exited the program"
+finally:
+  GPIO.cleanup()
